@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CyberTech — Professional QR Code Generator by GeekDZ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* CyberTech visual system — Poppins font, glassmorphism, neon accents */
+    :root{
+      --primary: #0D1117;
+      --secondary: #00BFFF;
+      --accent: #00FF88;
+      --support: #9BA1A6;
+      --muted: #E6EDF3;
+      --card-blur: 10px;
+    }
+
+    html,body{height:100%}
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(800px 400px at 10% 15%, rgba(0,191,255,0.06), transparent), var(--primary);
+      color: var(--muted);
+      margin: 0;
+      overflow: hidden;
+    }
+
+    /* decorative background SVG sits behind the content */
+    .bg-canvas{ position: fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; opacity:0.9 }
+
+    .card {
+      position: relative; z-index: 2;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(0,191,255,0.06);
+      backdrop-filter: blur(var(--card-blur));
+      -webkit-backdrop-filter: blur(var(--card-blur));
+      padding: 26px;
+      border-radius: 14px;
+      box-shadow: 0 18px 50px rgba(2,6,23,0.7), 0 0 40px rgba(0,191,255,0.03) inset;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .brand-row{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+    .club-logo{width:56px;height:56px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,191,255,0.08)}
+
+    h1{font-size:20px;margin:0;color:var(--accent);letter-spacing:0.2px}
+    .meta{font-size:13px;color:var(--support);margin-top:6px}
+
+    label{display:block;font-size:13px;margin:14px 0 8px;color:var(--support)}
+    input[type="text"]{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);box-sizing:border-box;font-size:15px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));color:var(--muted)}
+
+    .row{display:flex;gap:10px;margin-top:14px}
+    button{padding:11px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:700}
+    button#gen{background:linear-gradient(90deg,var(--secondary),var(--accent));color:var(--primary);box-shadow:0 10px 30px rgba(0,191,255,0.12), 0 0 18px rgba(0,255,136,0.04)}
+    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+    #qrcode{display:flex;align-items:center;justify-content:center;margin-top:18px}
+    #qrcode img,#qrcode canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+
+    a.link{color:var(--secondary);text-decoration:none}
+
+    /* subtle digital details for larger screens */
+    @media (min-width:900px){
+      .card{padding:36px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Background SVG with subtle circuit lines and particles for depth -->
+  <svg class="bg-canvas" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1600 900">
+    <defs>
+      <linearGradient id="g1" x1="0" x2="1">
+        <stop offset="0%" stop-color="#002f66" stop-opacity="0.12" />
+        <stop offset="100%" stop-color="#002f66" stop-opacity="0.02" />
+      </linearGradient>
+      <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="18" result="b"/>
+        <feBlend in="SourceGraphic" in2="b" mode="screen"/>
+      </filter>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#g1)" />
+    <!-- circuit lines -->
+    <g stroke="#00BFFF" stroke-opacity="0.06" stroke-width="1" fill="none">
+      <path d="M120 800 L400 600 L800 600 L1200 300" />
+      <path d="M0 200 L300 200 L500 100 L900 100 L1400 350" />
+      <path d="M200 0 L200 220 L420 220 L420 540" />
+    </g>
+    <!-- particles -->
+    <g fill="#00FF88" fill-opacity="0.06">
+      <circle cx="260" cy="140" r="2" />
+      <circle cx="720" cy="420" r="2" />
+      <circle cx="1180" cy="280" r="2" />
+      <circle cx="420" cy="740" r="2" />
+      <circle cx="980" cy="640" r="2" />
+    </g>
+  </svg>
+
+  <div class="card" role="main" aria-labelledby="title">
+    <div class="brand-row">
+  <img src="assets/logo-geekdz.png" alt="GeekDZ club logo" class="club-logo" />
+      <div>
+        <h1 id="title">CyberTech — Professional QR Code Generator</h1>
+        <div class="meta">A professional, non-temporary QR code generator by the GeekDZ club — <a class="link" href="https://geekdz.tech/" target="_blank" rel="noopener">geekdz.tech</a></div>
+      </div>
+    </div>
+
+    <label for="text">Enter text or URL</label>
+    <input id="text" type="text" placeholder="https://geekdz.tech/" value="https://geekdz.tech/" />
+
+    <div class="row" style="margin-top:12px;">
+      <button id="gen">Generate</button>
+      <button id="download" class="secondary" disabled>Download PNG</button>
+      <button id="clear" class="secondary">Clear</button>
+    </div>
+
+    <div id="qrcode" aria-live="polite"></div>
+    <div class="meta">Generates high-quality QR codes suitable for printing and digital use. Identity: <strong>CyberTech</strong>.</div>
+    <div class="meta">Made by GeekDZ — Official site: <a class="link" href="https://geekdz.tech/" target="_blank" rel="noopener">https://geekdz.tech/</a></div>
+  </div>
+
+  <!--
+    Using the small standalone qrcode library (no npm required).
+    Source: https://github.com/davidshimjs/qrcodejs
+    CDN: https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js
+  -->
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+  <script>
+  // Page text is English. Comments and code are in English.
+
+    const input = document.getElementById('text');
+    const btnGen = document.getElementById('gen');
+    const btnDownload = document.getElementById('download');
+    const btnClear = document.getElementById('clear');
+    const qrcodeContainer = document.getElementById('qrcode');
+
+    let qrcodeInstance = null;
+
+    // Generate QR into the #qrcode container using the qrcodejs library.
+    function generateQR(text) {
+      if (!text) {
+        alert('Please enter some text or URL.');
+        return;
+      }
+
+      // Clear previous QR
+      qrcodeContainer.innerHTML = '';
+
+      // Create QR with options
+      // You can adjust width/height/foreground colors here.
+      qrcodeInstance = new QRCode(qrcodeContainer, {
+        text: text,
+        width: 256,
+        height: 256,
+        colorDark: "#0D1117", // dark primary for QR foreground
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H // high correction level
+      });
+
+      // Enable download button after a short delay (image/svg element created)
+      setTimeout(() => {
+        // Find generated <img> or <canvas> inside container
+        const img = qrcodeContainer.querySelector('img');
+        const canvas = qrcodeContainer.querySelector('canvas');
+
+        // If an image tag exists, we can use its src.
+        if (img && img.src) {
+          btnDownload.disabled = false;
+        } else if (canvas) {
+          // Convert canvas to data URL
+          btnDownload.disabled = false;
+        } else {
+          btnDownload.disabled = true;
+        }
+      }, 50);
+    }
+
+    // Create a downloadable PNG from the generated QR (supports img or canvas output)
+    function downloadQR(filename = 'qrcode.png') {
+      const img = qrcodeContainer.querySelector('img');
+      const canvas = qrcodeContainer.querySelector('canvas');
+
+      if (img && img.src) {
+        // img.src may be a data URL already
+        const a = document.createElement('a');
+        a.href = img.src;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else if (canvas) {
+        const dataURL = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = dataURL;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else {
+        alert('No QR code found to download. Please generate one first.');
+      }
+    }
+
+    // Event listeners
+    btnGen.addEventListener('click', () => generateQR(input.value.trim()));
+    btnDownload.addEventListener('click', () => downloadQR());
+    btnClear.addEventListener('click', () => {
+      input.value = '';
+      qrcodeContainer.innerHTML = '';
+      btnDownload.disabled = true;
+    });
+
+    // Generate initial QR on load
+    window.addEventListener('DOMContentLoaded', () => {
+      if (input.value.trim()) generateQR(input.value.trim());
+    });
+
+    // Optional: support Enter key in input
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        generateQR(input.value.trim());
+      }
+    });
+  </script>
+</body>
+</html>
