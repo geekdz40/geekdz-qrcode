@@ -1,7 +1,7 @@
 import qrcode
 import os
 
-        # help : R0RaX0NURntHMXRfSDFzdDByeV9OM3Y1cl9MMXNfMjAyNn0=
+
 
 def create_qr(payload, name):
     """
